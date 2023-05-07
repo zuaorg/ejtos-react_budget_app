@@ -1,10 +1,12 @@
-import React, { useContext } from 'react';
-import { AppContext } from '../context/AppContext';
+import React, { useState } from 'react';
+//import { AppContext } from '../context/AppContext';
 const Budget = () => {
-    const { budget } = useContext(AppContext);
+    const { budget } = useState('');
     return (
         <div className='alert alert-secondary'>
-            <span>Budget: £{budget}</span>
+            <label for="edtbudget">Budget: £</label>
+            <input id="edtbudget" type="number" step="10" value={budget}
+            onChange></input>
         </div>
     );
 };
