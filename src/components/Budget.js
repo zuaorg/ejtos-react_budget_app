@@ -1,17 +1,26 @@
 import React, { useState,useContext } from 'react';
 import { AppContext } from '../context/AppContext';
-const Budget = (props) => {
-    const { dispatch,totalExpenses } = useContext(AppContext);
-    const [budget,setBudget] = useState("");
+const Budget = () => {
+    const { dispatch, expenses, currency } = useContext(AppContext);
+    const [budget,setBudget] = useState(2000);
+    const totalExpenses = expenses.reduce((total, item) => {
+        return (total += item.cost);
+    }, 0);
 
-    const submitEvent = () => {
+    const onBudgetChange = (event) => {
 
         if(budget > 20000) {
             alert("The value cannot exceed 20000");
-            setBudget("");
+            setBudget(2000);
+            return;
+        }
+        else if(budget < totalExpenses){
+            alert("Budget must be greater than expense");
+            setBudget(2000);
             return;
         }
         else{
+            setBudget(event.target.value);
             dispatch({
                 type: 'SET_BUDGET',
                 payload: budget,
@@ -21,10 +30,9 @@ const Budget = (props) => {
 
     return (
         <div className='alert alert-secondary'>
-            <label for="edtbudget">Budget: £</label>
+            <label for="edtbudget">Budget: {currency}</label>
             <input id="edtbudget" type="number" step="10" value={budget} 
-            onChange = {(event) => setBudget(event.target.value)}
-            onfocusout = {(submitEvent)}></input>
+            onChange = {(event) => onBudgetChange(event)}></input>
         </div>
     );
 };
