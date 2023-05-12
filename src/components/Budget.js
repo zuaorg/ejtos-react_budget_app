@@ -1,5 +1,6 @@
 import React, { useState,useContext } from 'react';
 import { AppContext } from '../context/AppContext';
+
 const Budget = () => {
     const { dispatch, expenses, currency } = useContext(AppContext);
     const [budget,setBudget] = useState(2000);
@@ -9,12 +10,12 @@ const Budget = () => {
 
     const onBudgetChange = (event) => {
 
-        if(budget > 20000) {
+        if(event.target.value > 20000) {
             alert("The value cannot exceed 20000");
             setBudget(2000);
             return;
         }
-        else if(budget < totalExpenses){
+        else if(event.target.value < totalExpenses){
             alert("Budget must be greater than expense");
             setBudget(2000);
             return;
@@ -23,7 +24,7 @@ const Budget = () => {
             setBudget(event.target.value);
             dispatch({
                 type: 'SET_BUDGET',
-                payload: budget,
+                payload: event.target.value,
             });
         }
     }
